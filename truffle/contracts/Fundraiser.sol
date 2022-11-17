@@ -5,6 +5,8 @@ import "../node_modules/openzeppelin-solidity/contracts/access/Ownable.sol";
 import "../node_modules/openzeppelin-solidity/contracts/utils/math/SafeMath.sol";
 
 contract Fundraiser is Ownable {
+  event DonationReceived(address indexed donor, uint256 value);
+
   using SafeMath for uint256;
 
   uint256 public totalDonations;
@@ -55,6 +57,8 @@ contract Fundraiser is Ownable {
     _donations[msg.sender].push(donation);
     totalDonations = totalDonations.add(msg.value);
     donationsCount++;
+
+    emit DonationReceived(msg.sender, msg.value);
   }
 
   function myDonations() public view returns(uint256[] memory values, uint256[] memory dates) {
